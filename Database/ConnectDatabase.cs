@@ -20,8 +20,6 @@ namespace Inventory.Database
 
         public void AddNewUser(string name, string password)
         {
-
-            
             SqlCommand cmd = new SqlCommand("adduser", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@username", name);
@@ -29,7 +27,6 @@ namespace Inventory.Database
             conn.Open();
             int rowAffected = cmd.ExecuteNonQuery();
             conn.Close();
-
         }
       
 

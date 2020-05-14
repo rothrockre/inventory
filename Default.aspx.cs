@@ -12,10 +12,13 @@ namespace Inventory
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ConnectDatabase conn = new ConnectDatabase();
-            
-            conn.AddNewUser("test", "pass");
 
+        }
+
+        protected void AddNewUser_Click(object sender, EventArgs e)
+        {
+            ConnectDatabase conn = new ConnectDatabase();
+            conn.AddNewUser(usernametb.Text, passwordtb.Text);
         }
     }
 }
