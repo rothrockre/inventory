@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,7 +13,7 @@ namespace Inventory
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void AddNewUser_Click(object sender, EventArgs e)
@@ -20,5 +21,14 @@ namespace Inventory
             ConnectDatabase conn = new ConnectDatabase();
             conn.AddNewUser(usernametb.Text, passwordtb.Text);
         }
+
+        protected void SetTextbox_Test(object sender, EventArgs e)
+        {
+            ConnectDatabase conn = new ConnectDatabase();
+            string Item = conn.GetStock().ToUpper();
+            StockItemTest.Text = Item;
+            
+        }
+
     }
 }

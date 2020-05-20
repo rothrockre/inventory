@@ -32,15 +32,16 @@
                 <asp:Button ID="adduserbutton" runat="server" Text="Add User" OnClick="AddNewUser_Click" />
             </div>
         </div>
+
+
         <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>
-                NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-            </p>
+            <h2>Item</h2>
+            <div class="col-md-2">
+                <asp:TextBox ID="StockItemTest" runat="server" ReadOnly="true" charactercasing="upper" OnLoad="SetTextbox_Test"></asp:TextBox>
+            </div>
         </div>
+
+
         <div class="col-md-4">
             <h2>Web Hosting</h2>
             <p>
