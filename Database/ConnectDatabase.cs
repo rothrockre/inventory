@@ -20,13 +20,23 @@ namespace Inventory.Database
 
         public void AddNewUser(string name, string password)
         {
-            SqlCommand cmd = new SqlCommand("adduser", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@username", name);
-            cmd.Parameters.AddWithValue("@password", password);
-            conn.Open();
-            int rowAffected = cmd.ExecuteNonQuery();
-            conn.Close();
+            DataManager dm = new DataManager();
+            string[] hashpass = new string[2];
+
+            if (UsernameExists(name))
+            {
+                hashpass = dm.HashPassword(password);
+
+                SqlCommand cmd = new SqlCommand("adduser", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", name);
+                cmd.Parameters.AddWithValue("@password", hashpass[0]);
+                cmd.Parameters.AddWithValue("@hashkey", hashpass[1]);
+                conn.Open();
+                int rowAffected = cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+
         }
 
         public string GetStock()
@@ -38,7 +48,7 @@ namespace Inventory.Database
             string itemName = "";
             if(dr.HasRows)
             {
-                while(dr.Read())
+                while(dr.Read())    //really do not need this while just the stuff inside since there is only one entry inside the Items table.
                 {
                     itemName = dr.GetString(1);
                     //int numInStock = dr.GetInt32(2);
@@ -55,6 +65,33 @@ namespace Inventory.Database
             conn.Close();
             return itemName;
         }
+
+        /* UsernameExists
+         * 
+         * returns false if username does not exist and true if the username exists in the Users Table.
+         */
+        public bool UsernameExists(string username)
+        {
+            SqlCommand cmd = new SqlCommand("CheckUsernameExists", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@username", username);
+            conn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            bool exists = false;
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    exists = dr.GetBoolean(0);
+                }
+            }
+            dr.Close();
+            conn.Close();
+            return !exists;
+
+        }
+
+
 
     }
     
